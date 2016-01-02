@@ -1,0 +1,62 @@
+{% extends 'base_finance.html' %}
+{% load staticfiles %}
+<style>
+{% block style %}
+.fa-calculator {
+                font-size: 120px;
+}
+.fa-calculator:hover {
+                      font-size: 140px;
+                      color: #CE4B3E
+
+}
+.fa-balance-scale {
+                        font-size:120px;
+}
+.fa-balance-scale:hover {
+                  font-size: 140px;
+                  color: #31708F
+}
+.fa-cogs {
+                        font-size:120px;
+}
+.fa-cogs:hover {
+                  font-size: 140px;
+                  color: black;
+}
+.lead {
+  text-align: center;
+}
+
+{% endblock %}
+</style>
+{% block content %}
+
+<div class="container">
+<div class="row">
+  <div class="col-sm-4">
+    <p class="lead">
+      <a href="{% url 'mortgage_calculator' %}"><i class="fa fa-calculator"></i></a>
+      </br>
+        Simple Mortgage Calculator
+  </p>
+  </div>
+  <div class="col-sm-4">
+    <p class="lead">
+      <i class="fa fa-balance-scale"></i>
+      </br>
+        Gamma Balancer
+    </p>
+
+  </div>
+  <div class="col-sm-4">
+    <p class="lead">
+      <i class="fa fa-cogs"></i>
+      </br>
+        More Coming Soon!
+    </p>
+
+  </div>
+</div>
+</div>
+{% endblock %}

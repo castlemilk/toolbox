@@ -1,0 +1,16 @@
+{% extends 'base_difference.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-12 col-xs-12">
+
+    <form id="MortgageForm" method='POST' action=''>
+    {% csrf_token %}
+    {{ form}}
+
+    <input class='btn btn-primary' type='submit' value='Calculate' />
+
+    </form>
+  </div>
+</div>
+{% endblock %}

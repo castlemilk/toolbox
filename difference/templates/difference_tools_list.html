@@ -1,0 +1,64 @@
+{% extends 'base_difference.html' %}
+
+{% load staticfiles %}
+<style>
+{% block style %}
+.fa-files-o {
+                font-size: 120px;
+                color: black;
+}
+.fa-files-o:hover {
+                      font-size: 140px;
+                      color: #CE4B3E
+
+}
+.fa-file-text{
+                        font-size:120px;
+}
+.fa-file-text:hover {
+                  font-size: 140px;
+                  color: #31708F
+}
+.fa-cogs {
+                        font-size:120px;
+}
+.fa-cogs:hover {
+                  font-size: 140px;
+                  color: black;
+}
+.lead {
+  text-align: center;
+}
+
+{% endblock %}
+</style>
+{% block content %}
+
+<div class="container">
+<div class="row">
+  <div class="col-sm-4">
+    <p class="lead">
+      <a href="{% url 'text_diff' %}"><i class="fa fa-files-o fa-5x"></i></a>
+      </br>
+        Simple Text Difference
+  </p>
+  </div>
+  <div class="col-sm-4">
+    <p class="lead">
+      <i class="fa fa-file-text "></i>
+      </br>
+        Advanced Text Difference
+    </p>
+
+  </div>
+  <div class="col-sm-4">
+    <p class="lead">
+      <i class="fa fa-cogs"></i>
+      </br>
+        More Coming Soon!
+    </p>
+
+  </div>
+</div>
+</div>
+{% endblock %}

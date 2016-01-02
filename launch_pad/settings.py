@@ -25,7 +25,7 @@ SECRET_KEY = 'xdhcs70th#+-5^806!%($m*v_h)0glaf*xo9ly%ntrboskyg^&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'finance',
+    'difference',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -55,7 +58,12 @@ ROOT_URLCONF = 'launch_pad.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+                os.path.join(BASE_DIR, 'templates'),
+                os.path.join(BASE_DIR, 'finance','templates'),
+                os.path.join(BASE_DIR, 'difference','templates'),
+
+                ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Australia/Melbourne'
 
 USE_I18N = True
 
@@ -119,3 +127,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_in_pro', 'static_root')
+STATICFILES_DIRS = (
+                    os.path.join(BASE_DIR,'static_in_pro', 'our_static'),
+                  )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_in_env', 'media_root')
+
+
+
+from .email_credentials import EMAIL_ADDRESS, EMAIL_PASSWORD
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = EMAIL_ADDRESS
+EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

@@ -1,0 +1,100 @@
+{% extends 'base_finance.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+<style>
+{% block style %}
+h1 { color: black; font-family: 'Raleway',sans-serif; font-size: 15px; font-weight: 500; line-height: 20px; margin: 0 0px 24px; text-align: left; text-transform: uppercase; }
+.fancy {
+line-height: 0.5;
+text-align: left;
+padding-bottom: 0px;
+padding-top: 0px;
+}
+.fancy span {
+  content: "";
+  position: absolute;
+  height: 0px;
+  /*border-bottom: 1px solid black;*/
+  border-top: 1px solid black;
+  top: 0px;
+  width: 333px;
+}
+.fancy span {
+  display: inline-block;
+  position: relative;
+}
+.monthly *,
+.fortnightly *,
+.weekly *,
+.total_interest * {
+  display: inline-block;
+  position: relative;
+  color: #333333;
+  font-family: Georgia, Serif;
+}
+/*.monthly_text{
+  display: inline-block;
+}
+.monthly_value{
+  display: inline-block;
+}*/
+{% endblock %}
+</style>
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4 col-xs-12 pull-left">
+      <h1> Mortgage Calculator </h1>
+        <form id="MortgageForm" method='POST' action=''>
+        {% csrf_token %}
+        {% crispy form %}
+
+        </form>
+
+        <div class="report">
+          <p class="fancy"></p>
+          <div class="monthly">
+            <div class="monthly_text">
+            </div>
+            <div class="monthly_value">
+            </div>
+          </div>
+          <p class="fancy"></p>
+          <div class="fortnightly">
+            <div class="fortnightly_text">
+            </div>
+            <div class="fortnightly_value">
+            </div>
+          </div>
+          <p class="fancy"></p>
+          <div class="weekly">
+            <div class="weekly_text">
+            </div>
+            <div class="weekly_value">
+            </div>
+          </div>
+          <p class="fancy"></p>
+          <div class="total_interest">
+            <div class="total_interest_text">
+            </div>
+            <div class="total_interest_value">
+            </div>
+          </div>
+        </div>
+        <p class="fancy"></p>
+
+    </div>
+    <div class = "col-sm-8 col-xs-12 pull-right">
+      <div id="MortgageGraph" style="width:100%; height:300px;"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'js/mortgage_calculator/validate_user_input.js' %}"></script>
+  {% if generate_report %}
+  <script src="{% static 'js/mortgage_calculator/finance_mortgage_calculator.js' %}"></script>
+  {% endif %}
+{% endblock %}

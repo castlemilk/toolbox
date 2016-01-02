@@ -1,0 +1,50 @@
+{% extends 'site/base_site.html' %}
+{% load crispy_forms_tags %}
+<style>
+{% block style %}
+.contact_banner {
+  padding-bottom: 10px;
+}
+.fa-comment-o {
+  display: inline;
+  font-size: 60px;
+}
+.title {
+  display:inline;
+  font-family: Georgia, Serif;
+  font-size: 50px;
+  padding-left: 20px;
+}
+.navbar-default {
+  border-color: #040402;
+}
+.navbar {
+  margin-bottom: 0px;
+}
+{% endblock %}
+</style>
+
+
+{% block content %}
+  <div class = "row">
+    <div class = 'col-sm-12 '>
+      <div class="contact_banner">
+          <i class="fa fa-comment-o"></i>
+      {% if title %}
+      <h1 class="title">{{title}}</h1>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<div class = "row">
+  <div class="col-sm-12">
+{% if not sent %}
+<form method = 'POST' action = ''>
+  {% csrf_token %}
+  {{form|crispy}}
+  <input class = 'btn btn-primary' type='submit' type='Submit'/>
+</form>
+{% endif %}
+  </div>
+</div>
+{% endblock %}
