@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from difflib.diff_match_patch import diff_match_patch
 
 # Create your views here.
 from forms import TextDifferenceForm
 def list_tools(request):
+
     context = {}
 
     return render(request, 'difference_tools_list.html', context)
@@ -13,14 +15,21 @@ def text_diff(request):
 
     context = {
                 "form": form,
+                "result": None,
                 }
-    print form.is_valid()
     if form.is_valid():
-        print form.cleaned_data['original']
-        print form.cleaned_data['changed']
-
+        original = form.cleaned_data['original']
+        changed = form.cleaned_data['changed']
+        differ = diff_match_patch()
+        difference = differ.diff_main(original, changed)
+        # result_output = []
+        # for item in difference:
+        #     result_output.append((item[0],item[1].replace('\r\n','</br>')))
+        print difference
+        # print result_output
         context = {
                     "form": form,
+                    "result": difference,
                     }
 
     return render(request, 'difference_text_diff.html', context)

@@ -1,16 +1,73 @@
 {% extends 'base_difference.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
 
+<style>
+{% block style %}
+.form-submit {
+  position: relative;
+}
+.control-label {
+  font-size: 25px;
+  text-align: centre;
+}
+.unchanged{
+  color: gray;
+}
+.added {
+  color:#3F6B4A;
+  background:#74EC92;
+}
+.deleted {
+  color: #944E4E;
+  background: #E08080;
+}
+/*.input-container {
+  padding-left: 5px;
+  padding-right: 5px;
+}*/
+{% endblock %}
+</style>
 {% block content %}
-<div class="row">
-  <div class="col-sm-12 col-xs-12">
-
-    <form id="MortgageForm" method='POST' action=''>
-    {% csrf_token %}
-    {{ form}}
-
-    <input class='btn btn-primary' type='submit' value='Calculate' />
-
-    </form>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <td class="result">
+        {% if result %}
+          {% for item in result %}
+            {% if item.0 == 0 %}
+              <span class="unchanged">{{item.1|linebreaksbr}}</span>
+            {% endif %}
+            {% if item.0 == -1 %}
+            <span class="deleted">{{item.1|linebreaksbr}}</span>
+            {% endif %}
+            {% if item.0 == 1 %}
+            <span class="added"> {{item.1|linebreaksbr}}</span>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+      </td>
+    </div>
   </div>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+
+        <form id="TextInput" method='POST' action=''>
+          {% csrf_token %}
+          {% crispy form %}
+
+          <div id="form-submit">
+            <button class="btn btn-default">Text Difference</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+
+<script src="{% static 'js/simple_text_difference/submit_form.js' %}"></script>
 {% endblock %}
