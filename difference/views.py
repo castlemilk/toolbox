@@ -22,14 +22,25 @@ def text_diff(request):
         changed = form.cleaned_data['changed']
         differ = diff_match_patch()
         difference = differ.diff_main(original, changed)
+
+        line_number_diff = differ.diff_line_numbers(difference)
+
+        # for item in line_number_diff:
+        #     print item
+
+
+
+        # html = differ.diff_prettyHtml(difference)
+        # print html
         # result_output = []
         # for item in difference:
         #     result_output.append((item[0],item[1].replace('\r\n','</br>')))
-        print difference
+        # print difference
         # print result_output
         context = {
                     "form": form,
                     "result": difference,
+                    # "prettyHTML":html,
                     }
 
-    return render(request, 'difference_text_diff.html', context)
+    return render(request, 'difference_text_diff_simple.html', context)

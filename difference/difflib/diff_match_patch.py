@@ -50,16 +50,16 @@ class diff_match_patch:
     # Cost of an empty edit operation in terms of edit characters.
     self.Diff_EditCost = 4
     # At what point is no match declared (0.0 = perfection, 1.0 = very loose).
-    self.Match_Threshold = 0.5
+    self.Match_Threshold = 0.2
     # How far to search for a match (0 = exact location, 1000+ = broad match).
     # A match this many characters away from the expected location will add
     # 1.0 to the score (0.0 is a perfect match).
-    self.Match_Distance = 0
+    self.Match_Distance = 2000
     # When deleting a large block of text (over ~64 characters), how close do
     # the contents have to be to match the expected contents. (0.0 = perfection,
     # 1.0 = very loose).  Note that Match_Threshold controls how closely the
     # end points of a delete need to match.
-    self.Patch_DeleteThreshold = 0.5
+    self.Patch_DeleteThreshold = 0.1
     # Chunk size for context length.
     self.Patch_Margin = 4
 
@@ -1091,8 +1091,25 @@ class diff_match_patch:
     text = []
     for (op, data) in diffs:
       if op != self.DIFF_INSERT:
+
         text.append(data)
     return "".join(text)
+
+  def diff_line_numbers(self, diffs):
+    text =[]
+    line_no = 0
+    for (op, data) in diffs:
+        lines = data.splitlines()
+        for line_number, line in enumerate(lines):
+            if len(lines) >1:
+                new_tuple = (op, line_no, line+'\r\n')
+            else:
+                new_tuple = (op, line_no, line)
+            line_no +=1
+            text.append(new_tuple)
+            # print new_tuple
+
+    return text
 
   def diff_text2(self, diffs):
     """Compute and return the destination text (all equalities and insertions).
