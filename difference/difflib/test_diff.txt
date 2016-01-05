@@ -1,0 +1,6 @@
+line one is here
+line two is not here
+line three is new
+line four is dumb
+line five once was smart
+line six never ment to exist
