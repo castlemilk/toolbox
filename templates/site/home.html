@@ -127,6 +127,15 @@
   font-size: 130px;
   color: #59E856;
 }
+
+.fa-area-chart {
+  font-size: 120px;
+  color: #333;
+}
+.fa-area-chart:hover {
+  font-size: 140px;
+  color: #92671E;
+}
 {% endblock %}
 </style>
 
@@ -186,6 +195,16 @@
             </br>
            Others
         </p>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-sm-4">
+      <p class='lead'>
+        <a href="{% url 'fuel_price_home' %}"><i class="fa fa-area-chart"></i></a>
+      </br>
+         Fuel Price
+      </p>
+    </div>
   </div>
 </div>
 

@@ -14,6 +14,7 @@
 }
 .fa-file-text{
                         font-size:120px;
+                        color:black;
 }
 .fa-file-text:hover {
                   font-size: 140px;
@@ -38,14 +39,14 @@
 <div class="row">
   <div class="col-sm-4">
     <p class="lead">
-      <a href="{% url 'text_diff' %}"><i class="fa fa-files-o fa-5x"></i></a>
+      <a href="{% url 'text_diff_simple' %}"><i class="fa fa-files-o fa-5x"></i></a>
       </br>
         Simple Text Difference
   </p>
   </div>
   <div class="col-sm-4">
     <p class="lead">
-      <i class="fa fa-file-text "></i>
+      <a href="{% url 'text_diff_advanced' %}"><i class="fa fa-file-text "></i></a>
       </br>
         Advanced Text Difference
     </p>

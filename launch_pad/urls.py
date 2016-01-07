@@ -19,6 +19,7 @@ from django.contrib import admin
 from launch_pad import views
 from finance import urls as finance_urls
 from difference import urls as difference_urls
+from fuel_price import urls as fuel_price_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     url(r'^contact', views.contact, name = 'contact'),
     url(r'^', include(finance_urls)),
     url(r'^', include(difference_urls)),
+    url(r'^', include(fuel_price_urls)),
     # url(r'^mortgage_calulator', include(finance_urls)),
 
 ]

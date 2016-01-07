@@ -27,17 +27,14 @@
   display: inline;
 }
 
-/*.input-container {
-  padding-left: 5px;
-  padding-right: 5px;
-}*/
-.result-text{
-    font-size: 0;
+
+.result-box {
+  font-size: 0px;
 }
 .unchanged,
 .deleted,
 .added {
-  font-size:20  px;
+  font-size:20px;
 }
 {% endblock %}
 </style>
@@ -46,6 +43,7 @@
   <div class="row">
     <div class="col-sm-12">
       <td class="result-text">
+        <span class=result-box>
         {% if result %}
           {% for item in result %}
             {% if item.0 == 0 %}
@@ -60,6 +58,7 @@
             {% endfor %}
         {% endif %}
         <!-- {{prettyHTML|safe}} -->
+      </span>
       </td>
   </div>
 </div>

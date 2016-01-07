@@ -10,7 +10,7 @@ def list_tools(request):
     return render(request, 'difference_tools_list.html', context)
 
 
-def text_diff(request):
+def text_diff_simple(request):
     form = TextDifferenceForm(request.POST or None)
 
     context = {
@@ -22,25 +22,41 @@ def text_diff(request):
         changed = form.cleaned_data['changed']
         differ = diff_match_patch()
         difference = differ.diff_main(original, changed)
-
-        line_number_diff = differ.diff_line_numbers(difference)
-
-        # for item in line_number_diff:
-        #     print item
-
-
-
-        # html = differ.diff_prettyHtml(difference)
-        # print html
-        # result_output = []
-        # for item in difference:
-        #     result_output.append((item[0],item[1].replace('\r\n','</br>')))
-        # print difference
-        # print result_output
         context = {
                     "form": form,
                     "result": difference,
-                    # "prettyHTML":html,
                     }
 
     return render(request, 'difference_text_diff_simple.html', context)
+
+
+def text_diff_advanced(request):
+    form = TextDifferenceForm(request.POST or None)
+
+    context = {
+                "form": form,
+                "result": None,
+                "advanced_search": True,
+                }
+    if form.is_valid():
+        original = form.cleaned_data['original']
+        changed = form.cleaned_data['changed']
+        differ = diff_match_patch()
+        difference = differ.diff_main(original, changed)
+        print difference
+        line_number_diff = differ.diff_cleaned(difference)
+        if len(line_number_diff) > 1:
+            context = {
+                        "form": form,
+                        "result": line_number_diff,
+                        "advanced_search": True,
+                        }
+        else:
+            context = {
+                        "form": form,
+                        "result": line_number_diff,
+                        "advanced_search": False,
+                        }
+
+
+    return render(request, 'difference_text_diff_advanced.html', context)

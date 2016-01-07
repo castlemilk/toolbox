@@ -46,15 +46,15 @@ class diff_match_patch:
     """
 
     # Number of seconds to map a diff before giving up (0 for infinity).
-    self.Diff_Timeout = 1.0
+    self.Diff_Timeout = 10
     # Cost of an empty edit operation in terms of edit characters.
-    self.Diff_EditCost = 4
+    self.Diff_EditCost = 7
     # At what point is no match declared (0.0 = perfection, 1.0 = very loose).
-    self.Match_Threshold = 0.2
+    self.Match_Threshold = 0.0
     # How far to search for a match (0 = exact location, 1000+ = broad match).
     # A match this many characters away from the expected location will add
     # 1.0 to the score (0.0 is a perfect match).
-    self.Match_Distance = 2000
+    self.Match_Distance = 0
     # When deleting a large block of text (over ~64 characters), how close do
     # the contents have to be to match the expected contents. (0.0 = perfection,
     # 1.0 = very loose).  Note that Match_Threshold controls how closely the
@@ -1095,21 +1095,283 @@ class diff_match_patch:
         text.append(data)
     return "".join(text)
 
-  def diff_line_numbers(self, diffs):
-    text =[]
-    line_no = 0
-    for (op, data) in diffs:
-        lines = data.splitlines()
-        for line_number, line in enumerate(lines):
-            if len(lines) >1:
-                new_tuple = (op, line_no, line+'\r\n')
-            else:
-                new_tuple = (op, line_no, line)
-            line_no +=1
-            text.append(new_tuple)
-            # print new_tuple
+  # def diff_line_numbers(self, diffs):
+  #   text =[]
+  #   text1_line_no = 0
+  #   text2_line_no = 0
+  #   previous_line = (0,0)
+  #   line_buffer = []
+  #   for (op, data) in diffs:
+  #       lines = data.splitlines()
+  #       new_line = '\n' in data
+  #       for line_number, line in enumerate(lines):
+  #           if op == self.DIFF_DELETE:
+  #               if len(lines) >1:
+  #                   # multiline deletion
+  #                   new_tuple = (op, text1_line_no, '', line+'\r\n')
+  #                   text1_line_no +=1
+  #               else:
+  #                   # single line deletion
+  #                   new_tuple = (op, text1_line_no, '', line)
+  #                   line_buffer.append((op,line))
+  #                   previous_line = (text1_line_no, text2_line_no)
+  #           elif op == self.DIFF_INSERT:
+  #               if len(lines) >1:
+  #                   # added multiline block
+  #                   new_tuple = (op, '', text2_line_no, line+'\r\n')
+  #                   text2_line_no +=1
+  #               else:
+  #                   # single line addition
+  #                   new_tuple = (op, '',text2_line_no, line)
+  #                   line_buffer.append((op,line))
+  #                   previous_line = (text1_line_no, text2_line_no)
+  #
+  #           else:
+  #               if len(lines) >1:
+  #                   # multiline unchanged
+  #                   if (previous_line[0] == text1_line_no
+  #                       or previous_line[1]==text2_line_no):
+  #                       line_buffer.append((op,line))
+  #                       new_tuple = (op, text1_line_no, text2_line_no, line_buffer)
+  #                       text1_line_no +=1
+  #                       text2_line_no +=1
+  #                   else:
+  #                       new_tuple = (op, text1_line_no, text2_line_no, line+'\r\n')
+  #                       text1_line_no +=1
+  #                       text2_line_no +=1
+  #                       line_buffer = []
+  #               else:
+  #                   # single line unchanged
+  #                   new_tuple = (op, text1_line_no, text2_line_no, line)
+  #                   line_buffer.append((op,line))
+  #                   previous_line = (text1_line_no, text2_line_no)
+  #
+  #           # if new_
+  #           # if len(lines) >1:
+  #           #     new_tuple = (op, line_no, line+'\r\n')
+  #           #     line_no +=1
+  #           # else:
+  #           #     new_tuple = (op, line_no, line)
+  #
+  #           text.append(new_tuple) # ('0',0,0,'xxxxx')
+  #           # print line_buffer
+  #
+  #           # print new_tuple
+  #
+  #   return text
 
-    return text
+
+  # def clean_diff(self, diffs):
+  #   line_diff = []
+  #   text1_line_no = 0
+  #   text2_line_no = 0
+  #   previous_line = (0,0)
+  #   insert_buffer = []
+  #   delete_buffer = []
+  #   unchanged_buffer = []
+  #   line_buffer = []
+  #   new_line = lambda str: '\r\n' in str
+  #   for (op, data) in diffs:
+  #       multiline = '\r\n' in data
+  #
+  #
+  #
+  #       if multiline:
+  #           lines = data.splitlines(True)
+  #           for line in lines:
+  #               current_line  = (text1_line_no,text2_line_no)
+  #               no_line_change = (previous_line[0]==current_line[0] or
+  #                                 previous_line[1]==current_line[1])
+  #               if no_line_change and text1_line_no > 0 and new_line(line):
+  #
+  #                   insert_buffer.append((op,line))
+  #                   delete_buffer.append((op,line))
+  #                   if insert_buffer != delete_buffer:
+  #                       delete_tuple = (-1, text1_line_no, '', delete_buffer)
+  #                       insert_tuple = (1, '', text2_line_no, insert_buffer)
+  #                       line_diff.append(delete_tuple)
+  #                       line_diff.append(insert_tuple)
+  #                       delete_buffer = []
+  #                       insert_buffer = []
+  #                       text1_line_no +=1
+  #                       text2_line_no +=1
+  #                   else:
+  #                       delete_tuple = (0, text1_line_no, text2_line_no, delete_buffer)
+  #                       line_diff.append(delete_tuple)
+  #                       # delete_buffer = []
+  #                       # insert_buffer = []
+  #                       text1_line_no +=1
+  #                       text2_line_no +=1
+  #               elif new_line(line):
+  #                   if op == self.DIFF_DELETE:
+  #                       delete_buffer = [(-1, line)]
+  #                       new_tuple = (op,text1_line_no,'', delete_buffer)
+  #                       line_diff.append(new_tuple)
+  #                       text1_line_no +=1
+  #                       delete_buffer = []
+  #                   elif op == self.DIFF_INSERT:
+  #                       insert_buffer = [(1, line)]
+  #                       new_tuple = (op,'',text2_line_no, insert_buffer)
+  #                       line_diff.append(new_tuple)
+  #                       text2_line_no +=1
+  #                       insert_buffer = []
+  #                   else:
+  #                       unchanged_buffer = [(0, line)]
+  #                       new_tuple = (op,text1_line_no,text2_line_no, unchanged_buffer)
+  #                       line_diff.append(new_tuple)
+  #                       text1_line_no +=1
+  #                       text2_line_no +=1
+  #                       delete_buffer = []
+  #                       insert_buffer = []
+  #
+  #               elif not new_line(line):
+  #                   if op == self.DIFF_DELETE:
+  #                       delete_buffer.append((-1, line))
+  #                   elif op == self.DIFF_INSERT:
+  #                       insert_buffer.append((1, line))
+  #
+  #                   else:
+  #                       delete_buffer.append((0, line))
+  #                       insert_buffer.append((0, line))
+  #
+  #
+  #       else:
+  #           if op == self.DIFF_DELETE:
+  #               # new_tuple = (op,text1_line_no,'', data)
+  #               delete_buffer.append((op, data))
+  #           elif op == self.DIFF_INSERT:
+  #               # new_tuple = (op,'',text2_line_no, data)
+  #               insert_buffer.append((op, data))
+  #           else:
+  #               # new_tuple = (op,text1_line_no,text2_line_no, data)
+  #               insert_buffer.append((op,data))
+  #               delete_buffer.append((op,data))
+  #
+  #           # line_buffer.append((op,line))
+  #           # line_diff.append(new_tuple)
+  #           previous_line = (text1_line_no, text2_line_no)
+  #   return line_diff
+  def diff_cleaned(self, diffs):
+      new_line = lambda x: '\r\n' in x
+      def clean_buffer(buffer):
+          print buffer
+          if buffer[-1][1]=='\r\n':
+              print buffer[-2]
+              buffer[-2] = (buffer[-2][0],buffer[-2][1]+'\r\n')
+              print buffer[-2]
+              buffer.pop()
+          print buffer
+          return buffer
+      insert_buffer = []
+      delete_buffer = []
+      unchanged_buffer = []
+      cleaned_diff = []
+      text1_line_no = 0
+      text2_line_no = 0
+      previous_item_complete = True
+
+      for (op, data) in diffs:
+
+
+          lines = data.splitlines(True)
+          for line in lines:
+
+              # if complete line then append
+              if new_line(line) and previous_item_complete:
+                  print "complete line: %s" %line
+                  if op == self.DIFF_INSERT:
+                      cleaned_diff.append((op, '',text2_line_no, [(op,line)]))
+                      text2_line_no +=1
+                  elif op == self.DIFF_DELETE:
+                      cleaned_diff.append((op, text1_line_no,'', [(op,line)]))
+                      text1_line_no +=1
+                  elif op == self.DIFF_EQUAL:
+                      cleaned_diff.append((op, text1_line_no, text2_line_no, [(op,line)]))
+                      text1_line_no +=1
+                      text2_line_no +=1
+                  print cleaned_diff[-1]
+                  previous_item_complete = True
+              # check if line is the tail of an item and append if so
+              elif new_line(line) and not previous_item_complete:
+                  print "tail element: %s" %line
+                  if delete_buffer != insert_buffer:
+                    #   print 'buffers differ'
+                      if delete_buffer:
+                          delete_buffer.append((op,line))
+                          delete_buffer = clean_buffer(delete_buffer)
+                          cleaned_diff.append((-1,text1_line_no, '', delete_buffer))
+                          print cleaned_diff[-1]
+                          delete_buffer = []
+                          text1_line_no += 1
+                      if insert_buffer:
+                          insert_buffer.append((op,line))
+                          insert_buffer = clean_buffer(insert_buffer)
+                          cleaned_diff.append((1,'',text2_line_no, insert_buffer))
+                          print cleaned_diff[-1]
+                          insert_buffer = []
+                          text2_line_no += 1
+                  else:
+                    #   print "buffers match"
+                    #   print delete_buffer
+                    #   print insert_buffer
+                      delete_buffer.append((op,line))
+                      if delete_buffer[0][0] == -1 or delete_buffer[-1][0] == -1:
+                          delete_buffer = clean_buffer(delete_buffer)
+                          cleaned_diff.append((-1,text1_line_no, text2_line_no, delete_buffer))
+                      elif insert_buffer[0][0] == 1 or insert_buffer[-1][0] == 1:
+                          insert_buffer = clean_buffer(insert_buffer)
+                          cleaned_diff.append((1,text1_line_no, text2_line_no, insert_buffer))
+                      else:
+                          insert_buffer = clean_buffer(insert_buffer)
+                          cleaned_diff.append((0,text1_line_no, text2_line_no, insert_buffer))
+
+                      print cleaned_diff[-1]
+                      delete_buffer = []
+                      insert_buffer = []
+                      text1_line_no += 1
+                      text2_line_no += 1
+                  previous_item_complete = True
+              # check if line is the head of an item
+              elif not new_line(line) and previous_item_complete:
+                  print "head element: %s" %line
+                  if op == self.DIFF_DELETE:
+                      delete_buffer = []
+                      delete_buffer.append((op,line))
+                  if op == self.DIFF_INSERT:
+                      insert_buffer = []
+                      insert_buffer.append((op,line))
+                  elif op == self.DIFF_EQUAL:
+                      delete_buffer = []
+                      insert_buffer = []
+                      delete_buffer.append((op,line))
+                      insert_buffer.append((op,line))
+                  previous_item_complete = False
+              # check for diffs within singular line
+              elif not new_line(line) and not previous_item_complete:
+                 print "interline element: %s" %line
+                 if op == self.DIFF_DELETE:
+                     print "adding to del buffer %s" %line
+                     delete_buffer.append((op,line))
+                 if op == self.DIFF_INSERT:
+                     print "adding to ins buffer %s " %line
+                     insert_buffer.append((op,line))
+                 elif op == self.DIFF_EQUAL:
+                     print "adding to both del and ins buffer %s" %line
+                     delete_buffer.append((op,line))
+                     insert_buffer.append((op,line))
+                 previous_item_complete = False
+
+
+
+
+      return cleaned_diff
+
+
+
+
+
+
+
 
   def diff_text2(self, diffs):
     """Compute and return the destination text (all equalities and insertions).

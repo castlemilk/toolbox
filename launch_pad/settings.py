@@ -62,6 +62,7 @@ TEMPLATES = [
                 os.path.join(BASE_DIR, 'templates'),
                 os.path.join(BASE_DIR, 'finance','templates'),
                 os.path.join(BASE_DIR, 'difference','templates'),
+                os.path.join(BASE_DIR, 'fuel_price','templates'),
 
                 ],
         'APP_DIRS': True,
