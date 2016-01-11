@@ -1,8 +1,20 @@
 from django.shortcuts import render
-
+from forms import PostalCodeForm
+from django import forms
+# from models import AAAData
 # Create your views here.
 def fuel_price_home(request):
-    context = {}
+    form = PostalCodeForm(request.POST or None)
+    context = {
+        "form": form,
+    }
+    print form.is_valid()
+    if form.is_valid():
+        context = {
+            "form": form,
+        }
+
+
 
     return render(request, 'fuel_price_home.html', context)
 

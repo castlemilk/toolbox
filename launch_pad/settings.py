@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'finance',
     'difference',
+    'fuel_price',
 ]
 
 MIDDLEWARE_CLASSES = [

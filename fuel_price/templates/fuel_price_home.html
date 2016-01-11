@@ -1,2 +1,66 @@
 {% extends 'base_fuel_price.html' %}
+{% load crispy_forms_tags%}
 {% load staticfiles %}
+
+
+<style>
+  {% block style %}
+    .card {
+      background:#FFF;
+      border:1px solid #AAA;
+      border-bottom:3px solid #BBB;
+      padding:0px;
+      margin-top: 15px;
+      overflow:hidden;
+          }
+
+    .card h1 {
+    margin:0px;
+    padding:10px;
+    padding-bottom:0px;
+            }
+    .card p {
+        margin:0px;
+        padding:10px;
+    }
+
+  body {
+    background-color: #E2DCDC;
+  }
+  {% endblock %}
+</style>
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-xs-12 pull-left">
+        <form id="PostalCodeForm" method='POST' action=''>
+          {% csrf_token %}
+          {% crispy form %}
+        </form>
+        <div id="form-submit">
+          <button class="btn btn-primary">Get Fuel Price Data</button>
+        </div>
+        <div class=price-box-1>
+
+
+        <div class="card">
+          <h1>Fuel price card 1</h1>
+          <p> Fuel price presentation here</p>
+        </div>
+        <div class="card">
+          <h1>Fuel price card 2</h1>
+          <p> Fuel price presentation here</p>
+        </div>
+      </div>
+      </div>
+      <div class="col-sm-8 col-xs-12">
+        <h1>Insert graphics here</h1>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'js/fuel_price/submit_form.js' %}"></script>
+{% endblock %}
