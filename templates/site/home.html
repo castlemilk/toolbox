@@ -2,47 +2,10 @@
 {% load staticfiles %}
 <style>
 {% block style %}
-  hr { width:100%; height:1px; background: #fff }
-  .fancy {
-  line-height: 0.5;
-  text-align: center;
-  padding-bottom: 25px;
-}
-.fancy span {
-  display: inline-block;
-  position: relative;
-}
-.fancy span:before {
-  content: "";
-  position: absolute;
-  height: 5px;
-  width:400px;
-  /*border-bottom: 1px solid black;*/
-  border-top: 1px solid black;
-  top: 3px;
+hr { width:100%; height:1px; background: #fff }
+h1 {border-top: 1px solid black; margin:23px 0 0; text-align:center; padding:0; height:24px;}
 
-  right: 100%;
-  margin-right: 15px;
-}
-.fancy span:after {
-  content: "";
-  position: absolute;
-  height: 5px;
-  width:400px;
-  /*border-bottom: 1px solid black;*/
-  border-top: 1px solid black;
-  top: 3px;
-  left: 100%;
-  margin-left: 15px;
-}
-/*.fancy span:before {
-  right: 100%;
-  margin-right: 15px;
-}
-.fancy span:after {
-  left: 100%;
-  margin-left: 15px;
-}*/
+h1 span { font-size: 25px; position: relative; top: -24px; padding: 0 20px; background:white;}
 .lead {
   text-align: center;
 }
@@ -168,7 +131,6 @@
             interested in the overall project and would like to collaborate or
             provide feedback, dont hesitate to contact me.
         </p>
-
       </div>
     </div>
   </div>
@@ -179,7 +141,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <p class="subtitle fancy"><span>Available Tools </span></p>
+        <h1><span>Available Tools</span></h1>
       </div>
     </div>
     <div class="row">
