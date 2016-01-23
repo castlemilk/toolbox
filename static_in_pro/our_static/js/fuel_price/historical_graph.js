@@ -159,7 +159,7 @@ $(document).ready(function(){
       $('.weekly').children('.weekly_value').text("$"+per_week);
       // $('.weekly').text("Weekly Repayment: "+"$"+per_week);
       // $('.total_interest').text("Total Interest payed: "+"$"+total_interest);
-      $('.total_interest').children('.total_interest_text').text('Total Interest Paid: ');
+      $('.total_interest').children('.total_interest_text').text('Total Interest Payed: ');
       $('.total_interest').children('.total_interest_value').text("$"+total_interest);
       //
       // }
@@ -223,7 +223,7 @@ $(document).ready(function(){
           data: [0]
       }]
     }
-
+  
 });
 
   // console.log("Inside submit function")

@@ -1,6 +1,7 @@
 {% extends 'base_fuel_price.html' %}
 {% load crispy_forms_tags%}
 {% load staticfiles %}
+{% include 'autocomplete_light/static.html' %}
 
 
 <style>
@@ -24,43 +25,85 @@
         padding:10px;
     }
 
-  body {
-    background-color: #E2DCDC;
+.tab-content {
+    /*background-color: #E2DCDC;*/
   }
+#PostalCodeForm {
+  display: inline;
+  float: left;
+}
+#form-submit {
+  display: inline;
+  padding-top: 25px;
+  float: left;
+}
   {% endblock %}
 </style>
 
 {% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4 col-xs-12 pull-left">
-        <form id="PostalCodeForm" method='POST' action=''>
-          {% csrf_token %}
-          {% crispy form %}
-        </form>
-        <div id="form-submit">
-          <button class="btn btn-primary">Get Fuel Price Data</button>
-        </div>
-        <div class=price-box-1>
+<input type="hidden" id="fuel-graph-data" name="variable" value="{{fuel_data_json}}">
+<input type="hidden" id="brent-graph-data" name="variable" value="{{brent_data_json}}">
+<div class="container">
+  <div class="row">
+  <div class="col-sm-12">
+  <form id="PostalCodeForm" method='POST' autocomplete="off" action=''>
+    {% csrf_token %}
+    {% crispy form %}
+  </form>
+  <div id="form-submit">
+    <button class="btn btn-primary">Get Fuel Price Data</button>
+  </div>
+</div>
+</div>
+<div class="parent-tabs">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#historical">Historical</a></li>
+    <li><a data-toggle="tab" href="#current">Current</a></li>
+    <li><a data-toggle="tab" href="#future">Future</a></li>
+  </ul>
 
+<!-- <div class="tab-content"> -->
+  <div id="historical" class="tab-pane fade in active">
+    <div class="sub-tabs">
+      <ul class="nav nav-tabs">
+        {% for key, item in fuel_data %}
+        <li><a data-toggle="tab" href="#{{key|slugify}}">{{key}}</a></li>
+        {% endfor %}
+      </ul>
+      {% for key, item in fuel_data %}
+        <div id="{{key|slugify}}">
 
-        <div class="card">
-          <h1>Fuel price card 1</h1>
-          <p> Fuel price presentation here</p>
+          <!-- <canvas id="myChart" width="500px" height="300px"></canvas> -->
+          <!-- <p>{{key}}</p>
+          {{item}} -->
+
         </div>
-        <div class="card">
-          <h1>Fuel price card 2</h1>
-          <p> Fuel price presentation here</p>
-        </div>
-      </div>
-      </div>
-      <div class="col-sm-8 col-xs-12">
-        <h1>Insert graphics here</h1>
-      </div>
+      {% endfor %}
+      <div id="graph1" style="width:100%; height:300px;"></div>
+
     </div>
   </div>
+  <!-- <div class = "col-sm-12 col-xs-12 pull-left">
+    <h1>Insert graphics here</h1>
+    <div id="MortgageGraph" style="width:100%; height:300px;"></div>
+  </div> -->
+  <div id="current" class="tab-pane fade">
+    <h3>Menu 1</h3>
+    <p>Some content in menu 1.</p>
+  </div>
+  <div id="future" class="tab-pane fade">
+    <h3>Menu 2</h3>
+    <p>Some content in menu 2.</p>
+  </div>
+</div>
+</div>
+
 {% endblock %}
 
 {% block js %}
+{% include 'autocomplete_light/static.html' %}
   <script src="{% static 'js/fuel_price/submit_form.js' %}"></script>
+  <!-- <script src="{% static 'js/fuel_price/historical_graph.js' %}"></script> -->
+  <script src="{% static 'js/fuel_price/manage_tabs.js' %}"></script>
+
 {% endblock %}

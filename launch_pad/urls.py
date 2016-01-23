@@ -20,8 +20,11 @@ from launch_pad import views
 from finance import urls as finance_urls
 from difference import urls as difference_urls
 from fuel_price import urls as fuel_price_urls
-
+import autocomplete_light.shortcuts as al
+al.autodiscover()
+# import every app/autocomplete_light_registry.py
 urlpatterns = [
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name = 'home'),
     url(r'^about', views.about, name = 'about'),
@@ -29,6 +32,7 @@ urlpatterns = [
     url(r'^', include(finance_urls)),
     url(r'^', include(difference_urls)),
     url(r'^', include(fuel_price_urls)),
+
     # url(r'^mortgage_calulator', include(finance_urls)),
 
 ]

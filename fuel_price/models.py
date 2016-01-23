@@ -4,7 +4,7 @@ from django.db import models
 import json
 from django.conf import settings
 from datetime import datetime
-
+from django.utils.encoding import python_2_unicode_compatible
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -24,8 +24,8 @@ class JSONField(models.TextField):
     def _loads(self, str):
         return json.loads(str, encoding=settings.DEFAULT_CHARSET)
 
-    def db_type(self):
-        return 'text'
+    # def db_type(self):
+    #     return 'text'
 
     def pre_save(self, model_instance, add):
         value = getattr(model_instance, self.attname, None)
@@ -54,7 +54,17 @@ class JSONField(models.TextField):
                     setattr(kwargs['instance'], self.attname, None)
 
 # Create your models here.
+# @python_2_unicode_compatible
 class AAAData(models.Model):
     state = models.CharField(max_length=4)
     location = models.CharField(max_length=64)
+    data = JSONField(null=True, blank=True)
+
+    # def __str__(self):
+    #     return self.location
+    def __unicode__(self):
+        return self.location
+
+class OilPrice(models.Model):
+    oil_type = models.CharField(max_length=10) # i.e crude/brent
     data = JSONField(null=True, blank=True)

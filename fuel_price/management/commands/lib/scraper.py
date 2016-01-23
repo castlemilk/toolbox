@@ -109,13 +109,15 @@ class PullAAAData(object):
 
 
 
-    def xl_to_json(self):
+    def xl_to_json(self, state):
         from xlrd import open_workbook,xldate_as_tuple
         import json
-        current_files = os.listdir(self.save_location)
-        if current_files:
-            for xl_file in current_files:
-                xl_file_directory = os.path.join(self.save_location, xl_file)
+        try:
+            state_file = next(file for file in os.listdir(self.save_location) if state in file)
+        except StopIteration, e:
+            print "no file found for %s " % (state)
+        if state_file:
+                xl_file_directory = os.path.join(self.save_location, state_file)
                 print "loading working from %s" % (xl_file_directory)
 
                 book = open_workbook(xl_file_directory)
@@ -126,19 +128,11 @@ class PullAAAData(object):
                 for date in key_cols:
                     if date != '':
                         dates_clean.append(xldate_as_tuple(date, book.datemode))
-
-
-
-
                 location_column = [sheet.cell(row_index, 0).value.strip() for row_index
                 in xrange(6,sheet.nrows-7)]
                 variables_column = [sheet.cell(row_index, 1).value.strip() for row_index
                 in xrange(6,sheet.nrows-7)]
 
-                # print "dates: ", key_cols
-                # print "dates clean:", dates_clean
-                # print "row keys: ", location_column
-                # print "variables:", variables_column
                 data = {}
 
                 # initialise data block
@@ -152,25 +146,7 @@ class PullAAAData(object):
                         sheet.cell(row_index+6,col_index).value for col_index in
                         xrange(2,sheet.ncols)]
 
-
-
-            #     test = [sheet.cell(7,
-            # col_index).value for col_index in xrange(2,sheet.ncols)]
-            #     print test
-                # for location, variables in data.iteritems():
-                #     print location
-                #     print variables['Average'][:5]
-                #     print variables['Monthly Movement'][:5]
-                #     print variables['Variation from Metro'][:5]
-                #     print variables['Minimum'][:5]
-                #     print variables['Maximum'][:5]
-                #     time.sleep(4)
-
-
                 return data
-        else:
-            print "no data found in given directory"
-            return None
 
 
 

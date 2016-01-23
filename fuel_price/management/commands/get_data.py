@@ -17,7 +17,26 @@ class Command(BaseCommand):
                 'fuel_price/management/data/scraper_data/aaa_site')
         AAA_data = PullAAAData(url, states, save_location)
 
-        json_data = AAA_data.xl_to_json()
 
-        print json_data
+        for state in states:
+            json_data = AAA_data.xl_to_json(state)
+            if json_data:
+                for location, data in json_data.iteritems():
+
+                    if AAAData.objects.filter(location=location):
+                        location_data = AAAData.objects.get(state=state,
+                                                        location=location)
+                        location_data.data = data
+                        location_data.save()
+                        print "updating location: %s" % (location)
+                    else:
+                        location_data = AAAData(state=state, location=location)
+                        location_data.data = data
+                        location_data.save()
+                        print "adding location: %s" % (location)
+            else:
+                print "no xl file found for state: %s" % state
+
+
+
         # self.stdout.write('There are {} things!'.format(AAAData.objects.count()))

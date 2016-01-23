@@ -12,7 +12,17 @@
   display: inline-block;
   position: relative;
 }
-.fancy span:before,
+.fancy span:before {
+  content: "";
+  position: absolute;
+  height: 5px;
+  /*border-bottom: 1px solid black;*/
+  border-top: 1px solid black;
+  top: 3px;
+  width:400px;
+  right: 100%;
+  margin-right: 15px;
+}
 .fancy span:after {
   content: "";
   position: absolute;
@@ -20,16 +30,18 @@
   /*border-bottom: 1px solid black;*/
   border-top: 1px solid black;
   top: 3px;
-  width: 390px;
+  width:inherit;
+  left: 100%;
+  margin-left: 15px;
 }
-.fancy span:before {
+/*.fancy span:before {
   right: 100%;
   margin-right: 15px;
 }
 .fancy span:after {
   left: 100%;
   margin-left: 15px;
-}
+}*/
 .lead {
   text-align: center;
 }
@@ -164,7 +176,11 @@
 <div class="jumbotron_2">
 
   <div class="container">
-    <p class="subtitle fancy"><span>Available Tools </span></p>
+    <div class="row">
+      <div class="col-sm-12">
+        <p class="subtitle fancy"><span>Available Tools </span></p>
+      </div>
+    </div>
     <div class="row">
       <div class="col-sm-4">
         <p class='lead'>
