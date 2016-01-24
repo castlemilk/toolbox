@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-
+import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,8 +24,9 @@ SECRET_KEY = 'xdhcs70th#+-5^806!%($m*v_h)0glaf*xo9ly%ntrboskyg^&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ALLOWED_HOSTS = ['blooming-spire-6192.herokuapp.com','castlemilk.ddns.net']
 
 
 # Application definition
@@ -86,16 +87,27 @@ WSGI_APPLICATION = 'launch_pad.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 # Parse database configuration from $DATABASE_URL
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
-# import dj_database_url
-# DATABASES['default'] =  dj_database_url.config()
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.path.join(BASE_DIR, 'db.postgres'),
+#         'USER': 'mpmmgyzacgaggy',
+#         'PASSWORD': 'ezochPba5uMphirAwpORXZhR53',
+#         'HOST': 'ec2-54-83-52-71.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
+import dj_database_url
+DATABASES = {'default': dj_database_url.config(default='postgres://mpmmgyzacgaggy:ezochPba5uMphirAwpORXZhR53@ec2-54-83-52-71.compute-1.amazonaws.com:5432/dec2hsagm2q6u9')}
+# DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
