@@ -26,7 +26,7 @@ SECRET_KEY = 'xdhcs70th#+-5^806!%($m*v_h)0glaf*xo9ly%ntrboskyg^&'
 DEBUG = True
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-ALLOWED_HOSTS = ['blooming-spire-6192.herokuapp.com','castlemilk.ddns.net']
+ALLOWED_HOSTS = ['blooming-spire-6192.herokuapp.com','castlemilk.ddns.net','ukitchn.com']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'finance',
     'difference',
     'fuel_price',
+    'word_generator',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -66,6 +67,8 @@ TEMPLATES = [
                 os.path.join(BASE_DIR, 'finance','templates'),
                 os.path.join(BASE_DIR, 'difference','templates'),
                 os.path.join(BASE_DIR, 'fuel_price','templates'),
+                os.path.join(BASE_DIR, 'word_generator','templates'),
+
 
                 ],
         'APP_DIRS': True,
