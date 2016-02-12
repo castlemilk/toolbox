@@ -153,6 +153,17 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_in_pro', 'static_ro
 STATICFILES_DIRS = (
                     os.path.join(BASE_DIR,'static_in_pro', 'our_static'),
                   )
+# ------------- HEROKU STATIC ------------
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+print BASE_DIR
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
+#
+# # Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_in_env', 'media_root')
