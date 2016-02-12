@@ -90,12 +90,12 @@ WSGI_APPLICATION = 'launch_pad.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 # Parse database configuration from $DATABASE_URL
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -108,9 +108,9 @@ DATABASES = {
 #     }
 # }
 
-# import dj_database_url
-# DATABASES = {'default': dj_database_url.config(default='postgres://mpmmgyzacgaggy:ezochPba5uMphirAwpORXZhR53@ec2-54-83-52-71.compute-1.amazonaws.com:5432/dec2hsagm2q6u9')}
-# DATABASES['default'] = dj_database_url.config()
+import dj_database_url
+DATABASES = {'default': dj_database_url.config(default='postgres://mpmmgyzacgaggy:ezochPba5uMphirAwpORXZhR53@ec2-54-83-52-71.compute-1.amazonaws.com:5432/dec2hsagm2q6u9')}
+DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -150,9 +150,9 @@ USE_TZ = True
 # PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_in_pro', 'our_static')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_in_pro', 'static_root')
 STATICFILES_DIRS = (
-                    os.path.join(BASE_DIR,'static_in_pro', 'our_static'),
+                    #os.path.join(BASE_DIR,'static_in_pro', 'our_static'),
                   )
 # ------------- HEROKU STATIC ------------
 # Static files (CSS, JavaScript, Images)
