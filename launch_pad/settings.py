@@ -108,9 +108,9 @@ WSGI_APPLICATION = 'launch_pad.wsgi.application'
 #     }
 # }
 
-import dj_database_url
-DATABASES = {'default': dj_database_url.config(default='postgres://mpmmgyzacgaggy:ezochPba5uMphirAwpORXZhR53@ec2-54-83-52-71.compute-1.amazonaws.com:5432/dec2hsagm2q6u9')}
-DATABASES['default'] = dj_database_url.config()
+# import dj_database_url
+# DATABASES = {'default': dj_database_url.config(default='postgres://mpmmgyzacgaggy:ezochPba5uMphirAwpORXZhR53@ec2-54-83-52-71.compute-1.amazonaws.com:5432/dec2hsagm2q6u9')}
+# DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -150,7 +150,8 @@ USE_TZ = True
 # PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_in_pro', 'static_root')
+# STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_in_pro', 'static_root')
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = (
                     #os.path.join(BASE_DIR,'static_in_pro', 'our_static'),
                   )
