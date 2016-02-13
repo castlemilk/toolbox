@@ -108,8 +108,9 @@ WSGI_APPLICATION = 'launch_pad.wsgi.application'
 #     }
 # }
 
-# import dj_database_url
-# DATABASES = {'default': dj_database_url.config(default='postgres://mpmmgyzacgaggy:ezochPba5uMphirAwpORXZhR53@ec2-54-83-52-71.compute-1.amazonaws.com:5432/dec2hsagm2q6u9')}
+import dj_database_url
+DATABASE_URL = 'postgres://mvvyrwsojkwwmx:fntVrz8rGlcP7ofSIXlIHLGLNi@ec2-54-225-223-40.compute-1.amazonaws.com:5432/d3t664j51le0km'
+DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
 # DATABASES['default'] = dj_database_url.config()
 
 # Password validation
